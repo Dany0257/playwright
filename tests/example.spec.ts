@@ -8,7 +8,8 @@ import {
   verifierItemAbsent,
   verifierItemCoche,
   verifierItemNonCoche,
-  verifierReferenceItemConstante
+  verifierReferenceItemConstante,
+  attendreItemVisible
 } from './verifications/tache.verifications';
 
 test.beforeEach(async ({ page }) => {
@@ -46,11 +47,13 @@ test('N:2.3.2.1 - Marquer une tâche active comme faite', async ({ page }) => {
 // Scénario N:2 + N:2.1.1 + N:2.3.2.2
 test('N:2.3.2.2 - Décocher une tâche réalisée', async ({ page }) => {
   await ajouterUneTache(page, 'tache a decocher');
-  await mettreAJourUneTache(page, 'aFaire', 'tache a decocher', { type: 'changerStatut', statut: 'faite' });
+  // on coche depuis "toutes"
+  await mettreAJourUneTache(page, 'toutes', 'tache a decocher', { type: 'changerStatut', statut: 'faite' });
+  // on décoche depuis "realisee" (Completed) — la tâche y est encore visible
   await mettreAJourUneTache(page, 'realisee', 'tache a decocher', { type: 'changerStatut', statut: 'aFaire' });
+  // on revient sur "toutes" pour vérifier
   await rechercherUneTache(page, 'toutes');
-  // attendre que l'item soit visible dans la vue "toutes"
-  await page.locator('.todo-list li').filter({ hasText: 'tache a decocher' }).waitFor({ state: 'visible' });
+  await attendreItemVisible(page, 'tache a decocher');
   await verifierItemNonCoche(page, 'tache a decocher');
 });
 

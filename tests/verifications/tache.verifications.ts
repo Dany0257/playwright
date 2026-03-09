@@ -35,3 +35,8 @@ export async function verifierReferenceItemConstante(page: Page, label: string):
   await expect(item).toBeVisible();
   await expect(item).toHaveCount(1);
 }
+
+// Niveau technique - Attendre qu'un item soit visible dans la vue courante
+export async function attendreItemVisible(page: Page, label: string): Promise<void> {
+  await page.locator('.todo-list li').filter({ hasText: label }).waitFor({ state: 'visible' });
+}
