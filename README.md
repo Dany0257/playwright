@@ -1,5 +1,8 @@
 # Tests Playwright - TodoMVC
 
+### Auteurs
+Abdou GUEYE &
+GIRINCUTI DANY CAROL
 ## Démarche
 
 ### 1. Modèle de tâche
